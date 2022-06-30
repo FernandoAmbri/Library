@@ -9,67 +9,73 @@
     <title>Library</title>
   </head>
   <body>
-    <header class="header">
-      <div class="container">
-        <h1>Library</h1>
-        <button>Log in</button>
-      </div>
-    </header>
-
-    <main class="content">
-      <div class="container-main">
-        <button>+ Add book</button>
-        <form action="#">
-          <h2>Add new book</h2>
-          <div>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Title"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              id="author"
-              name="author"
-              placeholder="Author"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="number"
-              min="5"
-              max="10000"
-              placeholder="Pages"
-              required
-            />
-          </div>
-          <div class="isRead">
-            <label for="isRead"
-              >Have you read it?
-              <input type="checkbox" id="isRead" name="isRead" required
-            /></label>
-          </div>
-          <input type="submit" value="Submit" id="submit" name="submit" />
-        </form>
-      </div>
-      <div class="cards-container">
-        <div class="card">
-          <span id="title-book">Life is good</span>
-          <span id="author">Fernando Ambrosio</span>
-          <span id="pages">540</span>
-          <button id="been-read">Read</button>
-          <button id="remove">Remove</button>
+    <div class="container-library">
+      <header class="header">
+        <div class="container">
+          <h1>Library</h1>
+          <button>Log in</button>
         </div>
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="">Fernando Ambrosio</div>
-    </footer>
+      </header>
+      <main class="content">
+        <div class="container-main">
+          <button id="add-book">+ Add book</button>
+        </div>
+        <div class="cards-container">
+          <!-- <div class="card">
+            <span id="title-book">Life is good</span>
+            <span id="author-book">Fernando Ambrosio</span>
+            <span id="pages-book">540</span>
+            <button id="been-read">Read</button>
+            <button id="remove">Remove</button>
+          </div> -->
+        </div>
+      </main>
+      <footer class="footer">
+        <div>Fernando Ambrosio</div>
+      </footer>
+    </div>
+    <div class="form-container">
+      <form action="#" class="animation">
+        <span class="close" title="Close form">&times;</span>
+        <h2>Add new book</h2>
+        <div>
+          <input
+            type="text"
+            id="title"
+            maxlength="100"
+            name="title"
+            placeholder="Title"
+            required
+          />
+          <p class="book-added">*The book has been added in your library.</p>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="author"
+            maxlength="100"
+            name="author"
+            placeholder="Author"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            min="5"
+            max="10000"
+            id="pages"
+            placeholder="Pages"
+            required
+          />
+        </div>
+        <div class="isRead">
+          <label for="isRead"
+            >Have you read it? <input type="checkbox" id="isRead" name="isRead"
+          /></label>
+        </div>
+        <input type="submit" value="Submit" id="submit" name="submit" />
+      </form>
+    </div>
   </body>
 </html>
