@@ -1,3 +1,27 @@
+class Book {
+  constructor(
+    title = "unknown",
+    author = "unknown",
+    numberPages = 0,
+    isRead = false
+  ) {
+    this.title = title;
+    this.author = author;
+    this.numberPages = numberPages;
+    this.isRead = isRead;
+  }
+}
+
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  addBook() {}
+
+  deleteBook() {}
+}
+
 const btn_addBook = document.querySelector("#add-book");
 const displayForm = document.querySelector(".form-container");
 const cardsContainer = document.querySelector(".cards-container");
