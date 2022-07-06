@@ -26,7 +26,7 @@ body {
   height: 100px;
   width: 100%;
   background-color: #fefce8;
-  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
 
 .header button {
@@ -109,7 +109,7 @@ form {
   text-align: center;
 }
 
-.close {
+#close_form {
   position: absolute;
   top: 10px;
   right: 20px;
@@ -118,8 +118,8 @@ form {
   font-weight: 800;
 }
 
-.close:hover,
-.close:focus {
+#close_form:hover,
+#close_form:focus {
   cursor: pointer;
   color: #ef4444;
 }

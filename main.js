@@ -17,51 +17,79 @@ class Library {
     this.books = [];
   }
 
-  addBook() {}
+  addBook(newBook) {
+    if (!this.isInLibrary(newBook)) {
+      this.books.push(newBook);
+    }
+  }
 
-  deleteBook() {}
-}
+  isInLibrary(newBook) {
+    return this.books.some((book) => book.title === newBook.title);
+  }
 
-const btn_addBook = document.querySelector("#add-book");
-const displayForm = document.querySelector(".form-container");
-const cardsContainer = document.querySelector(".cards-container");
-const form = document.querySelector("form");
+  deleteBook(index) {
+    this.books = this.books.filter((book, i) => i !== index);
+  }
 
-const input_title = document.querySelector("#title");
-const input_author = document.querySelector("#author");
-const input_pages = document.querySelector("#pages");
-const checkbox = document.querySelector("#isRead");
-const book_error = document.querySelector(".book-added");
-const close_form = document.querySelector(".close");
-
-let myLibrary = [];
-let beenRead = false;
-
-function Book(title, author, numeroPages, isRead) {
-  this.title = title;
-  this.author = author;
-  this.numeroPages = numeroPages;
-  this.isRead = isRead;
-}
-
-function addBookToLibrary() {
-  let title = input_title.value;
-  let author = input_author.value;
-  let pages = input_pages.value;
-
-  let book = new Book(title, author, pages, beenRead);
-  if (verifyBook(book) === true) {
-    myLibrary.push(book);
-    displayBooks(myLibrary[myLibrary.length - 1], myLibrary.length - 1);
-    clearInputs();
-    book_error.style.display = "none";
-  } else {
-    book_error.style.display = "block";
+  getBook(index) {
+    return this.books.find((book, i) => i === index);
   }
 }
 
-function verifyBook(obj_book) {
-  return myLibrary.every((book) => book["title"] !== obj_book["title"]);
+const library = new Library();
+
+const input_title = document.getElementById("title");
+const input_author = document.getElementById("author");
+const input_pages = document.getElementById("pages");
+const checkbox = document.getElementById("isRead");
+const openForm = document.getElementById("open_form");
+const btn_close_form = document.getElementById("close_form");
+
+const displayForm = document.querySelector(".form-container");
+const cardsContainer = document.querySelector(".cards-container");
+const book_error = document.querySelector(".book-added");
+const form = document.querySelector("form");
+
+function resetBooksGrid() {
+  cardsContainer.innerHTML = "";
+}
+
+function updateBooksGrid() {
+  resetBooksGrid();
+  library.books.forEach((book, index) => createBookCard(book, index));
+}
+
+function getBookFromInput() {
+  let title = input_title.value,
+    author = input_author.value,
+    pages = input_pages.value,
+    isRead = checkbox.checked;
+  return new Book(title, author, pages, isRead);
+}
+
+function addBookToLibrary() {
+  const newBook = getBookFromInput();
+
+  if (library.isInLibrary(newBook)) {
+    book_error.style.display = "block";
+    return;
+  }
+  book_error.style.display = "none";
+  library.addBook(newBook);
+  updateBooksGrid();
+}
+
+function toggleRead(e) {
+  let index = Number(e.target.parentElement.id);
+  const book = library.getBook(index);
+  book.isRead = !book.isRead;
+  updateBooksGrid();
+}
+
+function removeBookLibrary(e) {
+  let index = Number(e.target.parentElement.id);
+  library.deleteBook(index);
+  updateBooksGrid();
 }
 
 function createDiv(index) {
@@ -78,11 +106,11 @@ function createSpan(id, content) {
   return span;
 }
 
-function displayBooks(book, card_index) {
+function createBookCard(book, card_index) {
   let card = createDiv(card_index);
   let span_title = createSpan("title-book", book["title"]);
   let span_author = createSpan("author-book", book["author"]);
-  let span_pages = createSpan("pages-book", book["numeroPages"]);
+  let span_pages = createSpan("pages-book", book["numberPages"]);
 
   let button_read = document.createElement("button");
 
@@ -106,55 +134,31 @@ function displayBooks(book, card_index) {
 
   cardsContainer.appendChild(card);
 
-  button_remove.addEventListener("click", () => {
-    myLibrary.splice(Number(card_index), 1);
-    cardsContainer.removeChild(card);
-  });
-
-  button_read.addEventListener("click", (e) => {
-    if (book["isRead"] === true) {
-      book["isRead"] = false;
-      e.target.setAttribute("id", "not-read");
-      e.target.textContent = "Not read";
-    } else {
-      book["isRead"] = true;
-      e.target.setAttribute("id", "been-read");
-      e.target.textContent = "Read";
-    }
-  });
+  button_remove.onclick = removeBookLibrary;
+  button_read.onclick = toggleRead;
 }
 
-function clearInputs() {
+function showForm() {
+  displayForm.style.display = "flex";
   form.reset();
 }
 
-btn_addBook.addEventListener("click", (e) => {
-  displayForm.style.display = "flex";
-});
+function closeForm() {
+  form.reset();
+  book_error.style.display = "none";
+  displayForm.style.display = "none";
+}
 
-checkbox.addEventListener("change", (e) => {
-  if (beenRead === false) {
-    beenRead = true;
-  } else {
-    beenRead = false;
-  }
-});
+openForm.onclick = showForm;
+btn_close_form.onclick = closeForm;
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   addBookToLibrary();
 });
 
-close_form.addEventListener("click", (e) => {
-  clearInputs();
-  book_error.style.display = "none";
-  displayForm.style.display = "none";
-});
-
 window.addEventListener("click", (e) => {
   if (e.target === displayForm) {
-    clearInputs();
-    book_error.style.display = "none";
-    displayForm.style.display = "none";
+    closeForm();
   }
 });
